@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grafynt — AI Agency</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist+Mono:wght@300;400;500&family=Outfit:wght@200;300;400;500;600;700;800&display=swap');
+
+    :root {
+      --bg: #fafafa;
+      --bg2: #f4f4f5;
+      --bg3: #eeeeef;
+      --surface: #ffffff;
+      --navy: #141852;
+      --navy-light: #1e2270;
+      --navy-pale: #e8e9f4;
+      --red: #ff0a0a;
+      --red-soft: #fff0f0;
+      --black: #0a0a0a;
+      --white: #ffffff;
+      --gray1: #1a1a1a;
+      --gray2: #4a4a4a;
+      --gray3: #7a7a7a;
+      --gray4: #a0a0a0;
+      --gray5: #d0d0d0;
+      --gray6: #e8e8e8;
+      --border: #e4e4e4;
+      --border2: #d0d0d0;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-12px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes ticker {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .g-mono { font-family: 'Geist Mono', monospace; }
+    .g-serif { font-family: 'Instrument Serif', serif; }
+    .g-sans { font-family: 'Outfit', sans-serif; }
+
+    ::selection {
+      background: var(--navy);
+      color: var(--white);
+    }
+
+    @media (max-width: 768px) {
+      .gf-desk-nav { display: none !important; }
+      .gf-mob-btn { display: block !important; }
+      .gf-service-grid { grid-template-columns: 1fr !important; }
+      .gf-contact-grid { grid-template-columns: 1fr !important; }
+    }
+    @media (min-width: 769px) {
+      .gf-mob-btn { display: none !important; }
+    }
+    @media (max-width: 600px) {
+      .gf-case-row { grid-template-columns: 1fr !important; }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+
+    // ─── Data ──────────────────────────────────────────────────────
+    const SERVICES = [
+      {
+        id: "automations",
+        tag: "01",
+        title: "AI Automations & Agentic Systems",
+        short: "Automations",
+        desc: "Intelligent systems that think, decide, and execute — so your team can focus on what matters. From AI-powered workflows to fully autonomous agents that handle complex business processes end-to-end.",
+        features: [
+          "Autonomous AI agents for multi-step workflows",
+          "Intelligent document processing & data extraction",
+          "Custom chatbots & conversational AI",
+          "Workflow automation with AI decision-making",
+          "API integrations & data pipeline orchestration",
+          "WhatsApp, Slack, and email AI assistants",
+        ],
+      },
+      {
+        id: "websites",
+        tag: "02",
+        title: "AI-Built Websites",
+        short: "Websites",
+        desc: "Websites designed and built at the speed of AI — with the taste of a human creative director. Stunning, high-performance sites delivered in a fraction of the traditional timeline.",
+        features: [
+          "Full website design & development in days",
+          "AI-powered content generation & copywriting",
+          "Responsive, performance-optimized builds",
+          "Landing pages, portfolios, SaaS dashboards",
+          "E-commerce with AI product descriptions",
+          "SEO-optimized architecture from day one",
+        ],
+      },
+    ];
+
+    const PROCESS_STEPS = [
+      { num: "01", title: "Discovery", desc: "We learn your business inside out. Goals, pain points, constraints — no assumptions, only understanding." },
+      { num: "02", title: "Architect", desc: "System design, AI agent mapping, and rapid prototyping. We validate before we build." },
+      { num: "03", title: "Build", desc: "AI-augmented development at speed. We ship fast without compromising on quality." },
+      { num: "04", title: "Deploy & Iterate", desc: "Launch, monitor, optimize. We stay post-launch to ensure performance and evolution." },
+    ];
+
+    const CASE_STUDIES = [
+      { title: "E-Commerce AI Agent", client: "Fashion Brand", result: "80% of customer inquiries handled autonomously", tags: ["WhatsApp Bot", "NLP", "E-commerce"] },
+      { title: "Document Processing Pipeline", client: "Legal Firm", result: "10x faster contract review with AI extraction", tags: ["AI Agents", "OCR", "Automation"] },
+      { title: "AI-Built Portfolio Site", client: "Creative Studio", result: "Delivered in 5 days, 98 Lighthouse score", tags: ["Web Dev", "AI Design", "Performance"] },
+    ];
+
+    // ─── Logo ──────────────────────────────────────────────────────
+    function GrafyntLogo({ size = 24, light = false }) {
+      const navy = light ? "#ffffff" : "#141852";
+      return (
+        <svg viewBox="0 0 280 60" style={{ height: size, width: "auto" }}>
+          <text x="0" y="50" style={{
+            fontFamily: "'Outfit', sans-serif", fontSize: 62, fontWeight: 800,
+            fill: navy, letterSpacing: -2
+          }}>G</text>
+          <text x="42" y="50" style={{
+            fontFamily: "'Outfit', sans-serif", fontSize: 44, fontWeight: 700,
+            fill: navy, letterSpacing: 3
+          }}>RAFYNT</text>
+          <circle cx="268" cy="44" r="6" fill="#ff0a0a" />
+        </svg>
+      );
+    }
+
+    // ─── Micro Components ──────────────────────────────────────────
+    function RedDot({ size = 6 }) {
+      return <span style={{
+        display: "inline-block", width: size, height: size, borderRadius: "50%",
+        background: "var(--red)", flexShrink: 0
+      }} />;
+    }
+
+    function SectionTag({ children }) {
+      return (
+        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 24 }}>
+          <RedDot size={5} />
+          <span className="g-mono" style={{
+            fontSize: 10, letterSpacing: 3, color: "var(--gray3)",
+            textTransform: "uppercase"
+          }}>{children}</span>
+        </div>
+      );
+    }
+
+    function Divider() {
+      return <div style={{ height: 1, background: "var(--border)", width: "100%" }} />;
+    }
+
+    // ─── Main App ──────────────────────────────────────────────────
+    function Grafynt() {
+      const [page, setPage] = useState("home");
+      const [activeService, setActiveService] = useState("automations");
+      const [mobileNav, setMobileNav] = useState(false);
+      const [hoveredCase, setHoveredCase] = useState(null);
+      const [contactForm, setContactForm] = useState({ name: "", email: "", company: "", message: "", budget: "" });
+      const [formSent, setFormSent] = useState(false);
+
+      const nav = [
+        { id: "home", label: "Home" },
+        { id: "services", label: "Services" },
+        { id: "work", label: "Work" },
+        { id: "process", label: "Process" },
+        { id: "about", label: "About" },
+        { id: "contact", label: "Contact" },
+      ];
+
+      const currentService = SERVICES.find(s => s.id === activeService);
+
+      const handleContact = () => {
+        if (!contactForm.name || !contactForm.email) return;
+        setFormSent(true);
+        setTimeout(() => setFormSent(false), 4000);
+        setContactForm({ name: "", email: "", company: "", message: "", budget: "" });
+      };
+
+      return (
+        <div className="g-sans" style={{
+          minHeight: "100vh", background: "var(--bg)", color: "var(--gray1)"
+        }}>
+
+          {/* ─── NAV ─── */}
+          <nav style={{
+            position: "sticky", top: 0, zIndex: 900,
+            background: "rgba(250,250,250,0.92)", backdropFilter: "blur(20px)",
+            borderBottom: "1px solid var(--border)"
+          }}>
+            <div style={{
+              maxWidth: 1200, margin: "0 auto", height: 64, padding: "0 32px",
+              display: "flex", alignItems: "center", justifyContent: "space-between"
+            }}>
+              <div onClick={() => setPage("home")} style={{ cursor: "pointer", display: "flex", alignItems: "center" }}>
+                <GrafyntLogo size={22} />
+              </div>
+
+              <div style={{ display: "flex", gap: 0, alignItems: "center" }} className="gf-desk-nav">
+                {nav.map(n => (
+                  <button key={n.id} onClick={() => setPage(n.id)} className="g-sans" style={{
+                    padding: "8px 16px", border: "none", background: "transparent",
+                    color: page === n.id ? "var(--navy)" : "var(--gray3)",
+                    fontSize: 13, fontWeight: page === n.id ? 600 : 400,
+                    cursor: "pointer", transition: "all 0.2s", letterSpacing: 0.3
+                  }}>{n.label}</button>
+                ))}
+                <button onClick={() => setPage("contact")} style={{
+                  marginLeft: 16, padding: "9px 22px", borderRadius: 6,
+                  border: "none", background: "var(--navy)", color: "var(--white)",
+                  fontSize: 13, fontWeight: 500, cursor: "pointer",
+                  fontFamily: "'Outfit', sans-serif", letterSpacing: 0.3
+                }}>Get in Touch</button>
+              </div>
+
+              <button onClick={() => setMobileNav(!mobileNav)} className="gf-mob-btn" style={{
+                display: "none", background: "none", border: "none",
+                color: "var(--navy)", cursor: "pointer", fontSize: 22
+              }}>☰</button>
+            </div>
+
+            {mobileNav && (
+              <div style={{
+                padding: "8px 32px 20px", display: "flex", flexDirection: "column", gap: 2,
+                background: "var(--bg)"
+              }}>
+                {nav.map(n => (
+                  <button key={n.id} onClick={() => { setPage(n.id); setMobileNav(false); }} className="g-sans" style={{
+                    padding: "10px 0", border: "none", textAlign: "left",
+                    background: "transparent",
+                    color: page === n.id ? "var(--navy)" : "var(--gray3)",
+                    fontSize: 15, fontWeight: page === n.id ? 600 : 400,
+                    cursor: "pointer", borderBottom: "1px solid var(--border)"
+                  }}>{n.label}</button>
+                ))}
+              </div>
+            )}
+          </nav>
+
+          {/* ─── CONTENT ─── */}
+          <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+
+            {/* ─── HOME ─── */}
+            {page === "home" && (
+              <div>
+                <section style={{
+                  minHeight: "85vh", display: "flex", flexDirection: "column",
+                  justifyContent: "center", padding: "80px 32px"
+                }}>
+                  <div style={{ animation: "fadeUp 0.7s ease" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 28 }}>
+                      <RedDot size={7} />
+                      <span className="g-mono" style={{
+                        fontSize: 11, letterSpacing: 2, color: "var(--gray3)", textTransform: "uppercase"
+                      }}>AI Agency — Open for Projects</span>
+                    </div>
+
+                    <h1 style={{ marginBottom: 28 }}>
+                      <span className="g-sans" style={{
+                        display: "block", fontSize: "clamp(38px, 6.5vw, 76px)",
+                        fontWeight: 300, lineHeight: 1.08, letterSpacing: -2, color: "var(--gray2)"
+                      }}>We build</span>
+                      <span className="g-serif" style={{
+                        display: "block", fontSize: "clamp(46px, 7.5vw, 92px)",
+                        fontWeight: 400, fontStyle: "italic", lineHeight: 1.0,
+                        color: "var(--navy)"
+                      }}>intelligent systems</span>
+                      <span className="g-sans" style={{
+                        display: "block", fontSize: "clamp(38px, 6.5vw, 76px)",
+                        fontWeight: 300, lineHeight: 1.08, letterSpacing: -2, color: "var(--gray2)"
+                      }}>
+                        that deliver<span style={{ color: "var(--red)" }}>.</span>
+                      </span>
+                    </h1>
+
+                    <p style={{
+                      fontSize: 17, color: "var(--gray3)", maxWidth: 520,
+                      lineHeight: 1.8, fontWeight: 300, marginBottom: 40
+                    }}>
+                      AI automations, agentic systems, and high-performance websites —
+                      delivered with precision. We turn AI into your competitive edge.
+                    </p>
+
+                    <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+                      <button onClick={() => setPage("contact")} style={{
+                        padding: "14px 32px", borderRadius: 6, border: "none",
+                        background: "var(--navy)", color: "var(--white)", fontSize: 14,
+                        fontWeight: 500, cursor: "pointer", fontFamily: "'Outfit', sans-serif",
+                        transition: "all 0.2s"
+                      }}>Start a Project</button>
+                      <button onClick={() => setPage("work")} style={{
+                        padding: "14px 32px", borderRadius: 6,
+                        border: "1px solid var(--border2)", background: "transparent",
+                        color: "var(--gray2)", fontSize: 14, fontWeight: 400,
+                        cursor: "pointer", fontFamily: "'Outfit', sans-serif"
+                      }}>View Our Work</button>
+                    </div>
+                  </div>
+                </section>
+
+                {/* Stats */}
+                <section style={{ padding: "0 32px 80px", animation: "fadeUp 0.7s ease 0.2s both" }}>
+                  <div style={{
+                    display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
+                    borderTop: "1px solid var(--navy)", borderBottom: "1px solid var(--border)"
+                  }}>
+                    {[
+                      { val: "10+", label: "Projects Shipped" },
+                      { val: "< 10 Days", label: "Avg. Delivery" },
+                      { val: "99.9%", label: "Systems Uptime" },
+                      { val: "Global", label: "Client Reach" },
+                    ].map((s, i) => (
+                      <div key={i} style={{
+                        padding: "28px 20px",
+                        borderRight: i < 3 ? "1px solid var(--border)" : "none"
+                      }}>
+                        <div className="g-serif" style={{
+                          fontSize: 32, fontStyle: "italic", color: "var(--navy)", marginBottom: 4
+                        }}>{s.val}</div>
+                        <div className="g-mono" style={{
+                          fontSize: 10, color: "var(--gray4)", letterSpacing: 2, textTransform: "uppercase"
+                        }}>{s.label}</div>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+
+                {/* Ticker */}
+                <div style={{
+                  overflow: "hidden", borderTop: "1px solid var(--border)",
+                  borderBottom: "1px solid var(--border)", padding: "13px 0",
+                  background: "var(--navy)"
+                }}>
+                  <div style={{
+                    display: "flex", gap: 40, whiteSpace: "nowrap",
+                    animation: "ticker 30s linear infinite"
+                  }}>
+                    {[...Array(2)].map((_, ri) => (
+                      <div key={ri} style={{ display: "flex", gap: 40 }}>
+                        {["AI AUTOMATIONS", "AGENTIC SYSTEMS", "CHATBOTS", "AI WEBSITES", "WORKFLOW AUTOMATION", "DATA PIPELINES", "WHATSAPP BOTS", "LANDING PAGES"].map((t, i) => (
+                          <span key={i} className="g-mono" style={{
+                            fontSize: 10, letterSpacing: 4, color: "rgba(255,255,255,0.5)",
+                            textTransform: "uppercase"
+                          }}>
+                            {t} <span style={{ color: "var(--red)", margin: "0 6px", fontSize: 8 }}>◆</span>
+                          </span>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Services Preview */}
+                <section style={{ padding: "80px 32px" }}>
+                  <SectionTag>What We Do</SectionTag>
+                  <div style={{
+                    display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))",
+                    gap: 1, background: "var(--border)"
+                  }}>
+                    {SERVICES.map((svc, i) => (
+                      <div key={svc.id} onClick={() => { setActiveService(svc.id); setPage("services"); }} style={{
+                        padding: "44px 36px", background: "var(--surface)", cursor: "pointer",
+                        transition: "all 0.3s", animation: `fadeUp 0.6s ease ${i * 0.1}s both`,
+                        position: "relative"
+                      }}
+                      onMouseEnter={e => e.currentTarget.style.background = "var(--bg2)"}
+                      onMouseLeave={e => e.currentTarget.style.background = "var(--surface)"}
+                      >
+                        <span className="g-mono" style={{
+                          fontSize: 11, color: "var(--red)", letterSpacing: 2, marginBottom: 16,
+                          display: "block"
+                        }}>{svc.tag}</span>
+                        <h3 className="g-sans" style={{
+                          fontSize: 24, fontWeight: 500, marginBottom: 12, color: "var(--navy)"
+                        }}>{svc.title}</h3>
+                        <p style={{ fontSize: 14, color: "var(--gray3)", lineHeight: 1.7, marginBottom: 20 }}>
+                          {svc.desc.substring(0, 130)}...
+                        </p>
+                        <span className="g-sans" style={{
+                          fontSize: 13, color: "var(--navy)", fontWeight: 500, letterSpacing: 0.5
+                        }}>Learn More →</span>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+
+                {/* CTA */}
+                <section style={{ padding: "0 32px 100px" }}>
+                  <div style={{
+                    padding: "64px 48px", background: "var(--navy)",
+                    borderRadius: 8, textAlign: "center", position: "relative", overflow: "hidden"
+                  }}>
+                    <div style={{ position: "relative" }}>
+                      <h2 className="g-serif" style={{
+                        fontSize: "clamp(28px, 4vw, 44px)", fontStyle: "italic",
+                        color: "var(--white)", marginBottom: 16
+                      }}>
+                        Ready to build something that lasts<span style={{ color: "var(--red)" }}>.</span>
+                      </h2>
+                      <p style={{ color: "rgba(255,255,255,0.5)", fontSize: 15, marginBottom: 28, maxWidth: 460, margin: "0 auto 28px" }}>
+                        Tell us about your project. We respond within 24 hours.
+                      </p>
+                      <button onClick={() => setPage("contact")} style={{
+                        padding: "14px 36px", borderRadius: 6, border: "none",
+                        background: "var(--white)", color: "var(--navy)", fontSize: 14,
+                        fontWeight: 600, cursor: "pointer"
+                      }}>Get in Touch</button>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            )}
+
+            {/* ─── SERVICES ─── */}
+            {page === "services" && (
+              <section style={{ padding: "60px 32px 100px" }}>
+                <SectionTag>Services</SectionTag>
+                <h2 className="g-serif" style={{
+                  fontSize: "clamp(32px, 5vw, 52px)", fontStyle: "italic",
+                  color: "var(--navy)", marginBottom: 40, animation: "fadeUp 0.6s ease"
+                }}>
+                  What we build<span style={{ color: "var(--red)" }}>.</span>
+                </h2>
+
+                <div style={{ display: "flex", gap: 0, marginBottom: 40, borderBottom: "1px solid var(--border)" }}>
+                  {SERVICES.map(svc => (
+                    <button key={svc.id} onClick={() => setActiveService(svc.id)} className="g-sans" style={{
+                      padding: "12px 24px", border: "none",
+                      background: "transparent",
+                      color: activeService === svc.id ? "var(--navy)" : "var(--gray4)",
+                      fontSize: 14, fontWeight: activeService === svc.id ? 600 : 400,
+                      cursor: "pointer", transition: "all 0.2s",
+                      borderBottom: activeService === svc.id ? "2px solid var(--navy)" : "2px solid transparent",
+                      marginBottom: -1
+                    }}>{svc.tag} — {svc.short}</button>
+                  ))}
+                </div>
+
+                {currentService && (
+                  <div style={{
+                    display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48,
+                    animation: "fadeIn 0.4s ease"
+                  }} className="gf-service-grid">
+                    <div>
+                      <div className="g-mono" style={{
+                        fontSize: 11, color: "var(--red)", letterSpacing: 2, marginBottom: 16
+                      }}>{currentService.tag}</div>
+                      <h3 className="g-sans" style={{
+                        fontSize: 28, fontWeight: 500, marginBottom: 16, color: "var(--navy)"
+                      }}>{currentService.title}</h3>
+                      <p style={{ fontSize: 15, color: "var(--gray3)", lineHeight: 1.8, marginBottom: 32 }}>
+                        {currentService.desc}
+                      </p>
+                      <button onClick={() => setPage("contact")} style={{
+                        padding: "13px 28px", borderRadius: 6, border: "none",
+                        background: "var(--navy)", color: "var(--white)", fontSize: 14,
+                        fontWeight: 500, cursor: "pointer"
+                      }}>Discuss This Service</button>
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                      <div className="g-mono" style={{
+                        fontSize: 10, letterSpacing: 2, color: "var(--gray4)",
+                        marginBottom: 8, textTransform: "uppercase"
+                      }}>Capabilities</div>
+                      {currentService.features.map((f, i) => (
+                        <div key={i} style={{
+                          padding: "14px 18px", background: "var(--surface)",
+                          border: "1px solid var(--border)", display: "flex", alignItems: "center", gap: 12,
+                          animation: `slideIn 0.4s ease ${i * 0.05}s both`
+                        }}>
+                          <RedDot size={4} />
+                          <span style={{ fontSize: 14, color: "var(--gray2)" }}>{f}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </section>
+            )}
+
+            {/* ─── WORK ─── */}
+            {page === "work" && (
+              <section style={{ padding: "60px 32px 100px" }}>
+                <SectionTag>Case Studies</SectionTag>
+                <h2 className="g-serif" style={{
+                  fontSize: "clamp(32px, 5vw, 52px)", fontStyle: "italic",
+                  color: "var(--navy)", marginBottom: 40, animation: "fadeUp 0.6s ease"
+                }}>
+                  Selected work<span style={{ color: "var(--red)" }}>.</span>
+                </h2>
+
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  {CASE_STUDIES.map((cs, i) => (
+                    <div key={i}>
+                      <div
+                        onMouseEnter={() => setHoveredCase(i)}
+                        onMouseLeave={() => setHoveredCase(null)}
+                        style={{
+                          padding: "36px 0", cursor: "pointer", transition: "all 0.2s",
+                          animation: `fadeUp 0.5s ease ${i * 0.1}s both`,
+                          display: "grid", gridTemplateColumns: "60px 1fr auto",
+                          gap: 24, alignItems: "center"
+                        }}
+                        className="gf-case-row"
+                      >
+                        <span className="g-serif" style={{
+                          fontSize: 44, fontStyle: "italic",
+                          color: hoveredCase === i ? "var(--navy)" : "var(--gray5)",
+                          transition: "color 0.3s"
+                        }}>0{i + 1}</span>
+                        <div>
+                          <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 6 }}>
+                            <h3 className="g-sans" style={{
+                              fontSize: 22, fontWeight: 500, color: "var(--navy)"
+                            }}>{cs.title}</h3>
+                            <span style={{ fontSize: 13, color: "var(--gray4)" }}>— {cs.client}</span>
+                          </div>
+                          <p style={{ fontSize: 14, color: "var(--gray3)", marginBottom: 10 }}>{cs.result}</p>
+                          <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                            {cs.tags.map(t => (
+                              <span key={t} className="g-mono" style={{
+                                padding: "3px 10px", fontSize: 10,
+                                border: "1px solid var(--border)", color: "var(--gray3)",
+                                letterSpacing: 1
+                              }}>{t}</span>
+                            ))}
+                          </div>
+                        </div>
+                        <span style={{
+                          fontSize: 18, color: hoveredCase === i ? "var(--navy)" : "var(--gray5)",
+                          transition: "all 0.3s",
+                          transform: hoveredCase === i ? "translateX(4px)" : "translateX(0)"
+                        }}>→</span>
+                      </div>
+                      {i < CASE_STUDIES.length - 1 && <Divider />}
+                    </div>
+                  ))}
+                </div>
+
+                <div style={{
+                  marginTop: 56, padding: "36px 32px", textAlign: "center",
+                  border: "1px solid var(--border)", background: "var(--surface)"
+                }}>
+                  <p style={{ fontSize: 14, color: "var(--gray3)", marginBottom: 16 }}>
+                    Your project could be next<span style={{ color: "var(--red)" }}>.</span>
+                  </p>
+                  <button onClick={() => setPage("contact")} style={{
+                    padding: "12px 28px", borderRadius: 6, border: "none",
+                    background: "var(--navy)", color: "var(--white)", fontSize: 13,
+                    fontWeight: 500, cursor: "pointer"
+                  }}>Let's Build Together</button>
+                </div>
+              </section>
+            )}
+
+            {/* ─── PROCESS ─── */}
+            {page === "process" && (
+              <section style={{ padding: "60px 32px 100px" }}>
+                <SectionTag>How We Work</SectionTag>
+                <h2 className="g-serif" style={{
+                  fontSize: "clamp(32px, 5vw, 52px)", fontStyle: "italic",
+                  color: "var(--navy)", marginBottom: 48, animation: "fadeUp 0.6s ease"
+                }}>
+                  Our process<span style={{ color: "var(--red)" }}>.</span>
+                </h2>
+
+                <div style={{
+                  display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+                  gap: 0
+                }}>
+                  {PROCESS_STEPS.map((step, i) => (
+                    <div key={i} style={{
+                      padding: "36px 28px", borderLeft: i > 0 ? "1px solid var(--border)" : "none",
+                      borderTop: "2px solid var(--navy)",
+                      animation: `fadeUp 0.5s ease ${i * 0.1}s both`
+                    }}>
+                      <div className="g-mono" style={{
+                        fontSize: 10, color: "var(--red)", letterSpacing: 2, marginBottom: 16
+                      }}>STEP {step.num}</div>
+                      <h3 className="g-sans" style={{
+                        fontSize: 22, fontWeight: 500, marginBottom: 12, color: "var(--navy)"
+                      }}>{step.title}</h3>
+                      <p style={{ fontSize: 14, color: "var(--gray3)", lineHeight: 1.7 }}>{step.desc}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <div style={{
+                  marginTop: 48, padding: "28px 32px",
+                  borderLeft: "3px solid var(--navy)", background: "var(--surface)",
+                  display: "flex", alignItems: "center", justifyContent: "space-between",
+                  flexWrap: "wrap", gap: 16
+                }}>
+                  <div>
+                    <p style={{ fontSize: 16, color: "var(--gray2)" }}>
+                      Most projects go from zero to deployed in <strong style={{ color: "var(--navy)" }}>under 10 days</strong><span style={{ color: "var(--red)" }}>.</span>
+                    </p>
+                  </div>
+                  <button onClick={() => setPage("contact")} style={{
+                    padding: "11px 24px", borderRadius: 6, border: "none",
+                    background: "var(--navy)", color: "var(--white)", fontSize: 13,
+                    fontWeight: 500, cursor: "pointer"
+                  }}>Start Now</button>
+                </div>
+              </section>
+            )}
+
+            {/* ─── ABOUT ─── */}
+            {page === "about" && (
+              <section style={{ padding: "60px 32px 100px" }}>
+                <SectionTag>The Team</SectionTag>
+                <h2 className="g-serif" style={{
+                  fontSize: "clamp(32px, 5vw, 52px)", fontStyle: "italic",
+                  color: "var(--navy)", marginBottom: 20, animation: "fadeUp 0.6s ease"
+                }}>
+                  About Grafynt<span style={{ color: "var(--red)" }}>.</span>
+                </h2>
+                <p style={{
+                  fontSize: 16, color: "var(--gray3)", lineHeight: 1.8, maxWidth: 640,
+                  marginBottom: 48, animation: "fadeUp 0.6s ease 0.1s both"
+                }}>
+                  We're a lean AI agency that ships real products — not decks full of promises.
+                  Deep technical skill meets creative vision to build systems that move the needle.
+                </p>
+
+                <div style={{
+                  display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+                  gap: 1, background: "var(--border)",
+                  animation: "fadeUp 0.6s ease 0.2s both"
+                }}>
+                  {[
+                    {
+                      name: "Jonathan",
+                      role: "Founder & AI Architect",
+                      desc: "Leads strategy, AI architecture, and product vision. Obsessed with building systems that think — and shipping them fast.",
+                      initial: "J",
+                      accent: "var(--navy)"
+                    },
+                    {
+                      name: "Jeje",
+                      role: "Co-Founder & Creative Ops",
+                      desc: "The creative engine and operational backbone. Content strategy, client relations, and making sure everything ships on time.",
+                      initial: "J",
+                      accent: "var(--red)"
+                    },
+                  ].map((person, i) => (
+                    <div key={i} style={{ padding: "40px 36px", background: "var(--surface)" }}>
+                      <div style={{
+                        width: 52, height: 52, borderRadius: 6,
+                        background: person.accent, display: "flex",
+                        alignItems: "center", justifyContent: "center",
+                        fontSize: 20, fontWeight: 700, color: "var(--white)", marginBottom: 20
+                      }}>{person.initial}</div>
+                      <h3 className="g-sans" style={{
+                        fontSize: 24, fontWeight: 500, marginBottom: 4, color: "var(--navy)"
+                      }}>{person.name}</h3>
+                      <div className="g-mono" style={{
+                        fontSize: 10, color: "var(--red)", letterSpacing: 2, marginBottom: 16,
+                        textTransform: "uppercase"
+                      }}>{person.role}</div>
+                      <p style={{ fontSize: 14, color: "var(--gray3)", lineHeight: 1.7 }}>{person.desc}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <div style={{ marginTop: 56 }}>
+                  <SectionTag>Principles</SectionTag>
+                  <div style={{
+                    display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+                    gap: 0, borderTop: "2px solid var(--navy)"
+                  }}>
+                    {[
+                      { title: "Ship Fast", desc: "Speed is a feature. We optimize for rapid iteration and quick time-to-value." },
+                      { title: "Build Real", desc: "No vaporware. Everything we deliver works in production, not just in demos." },
+                      { title: "Think Global", desc: "International clients, world-class standards, clear communication across time zones." },
+                      { title: "Stay Lean", desc: "Small team, big output. AI-augmented workflows let us punch above our weight." },
+                    ].map((v, i) => (
+                      <div key={i} style={{
+                        padding: "28px 24px",
+                        borderRight: i < 3 ? "1px solid var(--border)" : "none",
+                        borderBottom: "1px solid var(--border)",
+                        animation: `fadeUp 0.5s ease ${0.3 + i * 0.08}s both`
+                      }}>
+                        <h4 className="g-sans" style={{
+                          fontSize: 16, fontWeight: 600, marginBottom: 8, color: "var(--navy)"
+                        }}>{v.title}<span style={{ color: "var(--red)" }}>.</span></h4>
+                        <p style={{ fontSize: 13, color: "var(--gray3)", lineHeight: 1.6 }}>{v.desc}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </section>
+            )}
+
+            {/* ─── CONTACT ─── */}
+            {page === "contact" && (
+              <section style={{ padding: "60px 32px 100px" }}>
+                <SectionTag>Get in Touch</SectionTag>
+                <div style={{
+                  display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48,
+                  animation: "fadeUp 0.6s ease"
+                }} className="gf-contact-grid">
+                  <div>
+                    <h2 className="g-serif" style={{
+                      fontSize: "clamp(32px, 5vw, 48px)", fontStyle: "italic",
+                      color: "var(--navy)", marginBottom: 20
+                    }}>
+                      Let's build<br/>together<span style={{ color: "var(--red)" }}>.</span>
+                    </h2>
+                    <p style={{ fontSize: 15, color: "var(--gray3)", lineHeight: 1.8, marginBottom: 36 }}>
+                      Have a project in mind? Tell us about it. We'll respond
+                      within 24 hours with a clear plan and timeline.
+                    </p>
+
+                    <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
+                      {[
+                        { label: "Email", value: "hello@grafynt.com" },
+                        { label: "Response Time", value: "Within 24 hours" },
+                        { label: "Based In", value: "Indonesia — Serving Global" },
+                      ].map((c, i) => (
+                        <div key={i} style={{
+                          padding: "16px 0", borderBottom: "1px solid var(--border)",
+                          display: "flex", justifyContent: "space-between", alignItems: "center"
+                        }}>
+                          <span className="g-mono" style={{
+                            fontSize: 10, color: "var(--gray4)", letterSpacing: 2, textTransform: "uppercase"
+                          }}>{c.label}</span>
+                          <span style={{ fontSize: 14, color: "var(--navy)", fontWeight: 500 }}>{c.value}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div style={{
+                    padding: 36, background: "var(--surface)",
+                    border: "1px solid var(--border)"
+                  }}>
+                    {formSent ? (
+                      <div style={{
+                        height: "100%", display: "flex", flexDirection: "column",
+                        alignItems: "center", justifyContent: "center", textAlign: "center",
+                        animation: "fadeUp 0.4s ease", minHeight: 300
+                      }}>
+                        <div style={{
+                          width: 48, height: 48, borderRadius: "50%", background: "var(--navy)",
+                          display: "flex", alignItems: "center", justifyContent: "center",
+                          color: "var(--white)", fontSize: 20, marginBottom: 16
+                        }}>✓</div>
+                        <h3 className="g-sans" style={{ fontSize: 22, marginBottom: 8, color: "var(--navy)" }}>Message Sent</h3>
+                        <p style={{ fontSize: 14, color: "var(--gray3)" }}>We'll be in touch within 24 hours.</p>
+                      </div>
+                    ) : (
+                      <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                        <div className="g-mono" style={{
+                          fontSize: 10, letterSpacing: 2, color: "var(--gray4)", textTransform: "uppercase"
+                        }}>Project Inquiry</div>
+                        {[
+                          { key: "name", placeholder: "Your Name *" },
+                          { key: "email", placeholder: "Email Address *" },
+                          { key: "company", placeholder: "Company / Brand" },
+                        ].map(f => (
+                          <input
+                            key={f.key}
+                            value={contactForm[f.key]}
+                            onChange={e => setContactForm(prev => ({ ...prev, [f.key]: e.target.value }))}
+                            placeholder={f.placeholder}
+                            className="g-sans"
+                            style={{
+                              padding: "13px 16px", border: "1px solid var(--border)",
+                              background: "var(--bg)", color: "var(--gray1)", fontSize: 14,
+                              outline: "none", transition: "border-color 0.2s",
+                              borderRadius: 4
+                            }}
+                            onFocus={e => e.target.style.borderColor = "var(--navy)"}
+                            onBlur={e => e.target.style.borderColor = "var(--border)"}
+                          />
+                        ))}
+
+                        <div className="g-mono" style={{
+                          fontSize: 10, color: "var(--gray4)", letterSpacing: 2, marginTop: 4
+                        }}>BUDGET RANGE</div>
+                        <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                          {["$1K – $3K", "$3K – $5K", "$5K – $10K", "$10K+", "Not Sure"].map(b => (
+                            <button key={b} onClick={() => setContactForm(prev => ({ ...prev, budget: b }))} className="g-sans" style={{
+                              padding: "8px 16px", borderRadius: 4, fontSize: 12,
+                              border: `1px solid ${contactForm.budget === b ? "var(--navy)" : "var(--border)"}`,
+                              background: contactForm.budget === b ? "var(--navy-pale)" : "transparent",
+                              color: contactForm.budget === b ? "var(--navy)" : "var(--gray3)",
+                              cursor: "pointer", transition: "all 0.2s", fontWeight: contactForm.budget === b ? 500 : 400
+                            }}>{b}</button>
+                          ))}
+                        </div>
+
+                        <textarea
+                          value={contactForm.message}
+                          onChange={e => setContactForm(prev => ({ ...prev, message: e.target.value }))}
+                          placeholder="Tell us about your project..."
+                          rows={4}
+                          className="g-sans"
+                          style={{
+                            padding: "13px 16px", border: "1px solid var(--border)",
+                            background: "var(--bg)", color: "var(--gray1)", fontSize: 14,
+                            outline: "none", resize: "vertical", borderRadius: 4
+                          }}
+                          onFocus={e => e.target.style.borderColor = "var(--navy)"}
+                          onBlur={e => e.target.style.borderColor = "var(--border)"}
+                        />
+
+                        <button onClick={handleContact} style={{
+                          padding: "14px", borderRadius: 6, border: "none",
+                          background: "var(--navy)", color: "var(--white)", fontSize: 14,
+                          fontWeight: 500, cursor: "pointer", marginTop: 4
+                        }}>Send Inquiry</button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </section>
+            )}
+          </div>
+
+          {/* ─── FOOTER ─── */}
+          <footer style={{
+            borderTop: "1px solid var(--border)", padding: "40px 32px",
+            background: "var(--navy)"
+          }}>
+            <div style={{
+              maxWidth: 1200, margin: "0 auto",
+              display: "flex", justifyContent: "space-between", alignItems: "center",
+              flexWrap: "wrap", gap: 16
+            }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                <GrafyntLogo size={18} light={true} />
+              </div>
+              <div className="g-mono" style={{
+                fontSize: 10, color: "rgba(255,255,255,0.3)", letterSpacing: 1
+              }}>
+                © 2026 GRAFYNT<span style={{ color: "var(--red)" }}>.</span> ALL RIGHTS RESERVED.
+              </div>
+            </div>
+          </footer>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<Grafynt />);
+  </script>
+</body>
+</html>
