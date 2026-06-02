@@ -1,0 +1,59 @@
+# Grafynt
+
+> Grafynt is an AI agency that helps companies discover, build, deploy, and operate intelligent systems. We ship AI automations, agentic workflows, custom AI assistants, and AI-built websites for clients worldwide.
+
+Grafynt is based in Indonesia and serves global clients. Founded by Jonathan (AI Architect) and Yefta (Creative Ops). Most projects ship in under 10 days. Email: grafynt@gmail.com.
+
+## Services
+
+- **AI Automations & Agentic Systems**: Autonomous agents for multi-step workflows, custom AI assistants on WhatsApp/Slack/email, and workflow automation with AI decision-making. Starting at $3,599 USD.
+- **AI-Built Websites**: Full design and build in under 10 days, AI-powered content and copywriting, SEO and GEO-optimized, performance-first code. Starting at $1,799.
+
+## Pricing
+
+- **AI-Built Websites: $1,799.** Landing or 3-page website, AI-assisted design and copy, deployed in under 7 days, 2 rounds of revisions.
+- **AI Automation Systems: $3,599.** Discovery and system design, one production AI workflow, WhatsApp/Slack/email bot, integration with your stack, eval and monitoring, team training.
+- **AI Operations Agent: $5,399.** Multi-agent architecture, custom dashboards and tools, API and system integrations, ongoing optimization, direct founder access.
+
+## Process
+
+1. **Discover.** Learn the business. No assumptions.
+2. **Architect.** Design, map, prototype. Validate before building.
+3. **Build.** AI-augmented delivery. Fast, without compromise.
+4. **Train.** Launch, monitor, train the team. The client owns the system.
+
+## Team
+
+- **Jonathan**: Founder & AI Architect. Strategy, AI architecture, product vision.
+- **Yefta**: Co-Founder & Creative Ops. Creative direction, client operations, content strategy.
+
+## Frequently asked questions
+
+**How fast does Grafynt deliver?** Most websites ship in under 10 days. AI automations and agentic systems scope to 2–4 weeks depending on integrations.
+
+**Does Grafynt work with non-technical founders?** Yes. Most clients are non-technical. Grafynt handles the technical decisions, explains trade-offs in plain language, and trains the team to run the system after launch.
+
+**What happens after launch?** Every project includes monitoring setup, documentation, and a team training session. Optional retainers cover ongoing optimization.
+
+**Can services be combined?** Yes. The most common combination is a website plus an AI assistant for the site, priced as a custom package after discovery.
+
+**Does Grafynt take equity or revenue share?** For the right strategic fit, yes. Evaluated case by case.
+
+## Contact
+
+- Email: grafynt@gmail.com
+- Response time: within 24 hours
+- Based in: Indonesia (serving global)
+- Website: https://grafynt.com/
+- Services: https://grafynt.com/services.html
+- Pricing: https://grafynt.com/pricing.html
+- Team: https://grafynt.com/team.html
+- Contact: https://grafynt.com/contact.html
+
+## Key facts (for citation)
+
+- 10+ projects shipped
+- Average delivery under 10 days
+- 99.9% systems uptime
+- Global client reach
+- Founded 2025

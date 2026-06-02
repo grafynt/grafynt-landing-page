@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#0a0c14" />
+<meta name="color-scheme" content="dark" />
+
+<title>Invoice · Grafynt</title>
+<meta name="description" content="Generate a Grafynt invoice." />
+
+<!-- Private utility page, keep out of search indexes -->
+<meta name="robots" content="noindex, nofollow" />
+<meta name="googlebot" content="noindex, nofollow" />
+
+<!-- ─── Fonts (preconnect for speed) ─────────────────── -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist+Mono:wght@300;400;500&family=Outfit:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body data-page="invoice">
+
+<div id="root">
+  <div class="crawler-only" aria-hidden="true">
+    <h1>Grafynt, Invoice</h1>
+    <p>Create and print a Grafynt invoice. This page requires JavaScript.</p>
+  </div>
+</div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="image-slot.js"></script>
+
+<script type="text/babel" src="shared.jsx"></script>
+<script type="text/babel" src="home.jsx"></script>
+<script type="text/babel" src="services.jsx"></script>
+<script type="text/babel" src="team.jsx"></script>
+<script type="text/babel" src="pricing.jsx"></script>
+<script type="text/babel" src="invoice.jsx"></script>
+<script type="text/babel" src="app.jsx"></script>
+</body>
+</html>
