@@ -3,18 +3,10 @@ const TEAM = [
   {
     name: 'Jonathan',
     role: 'Founder & AI Architect',
-    bio: 'Leads strategy, AI architecture, and product vision. Obsessed with building systems that think, and shipping them fast.',
+    bio: 'Builds the strategy, designs the architecture, ships the product. One builder with AI as the force multiplier — direct access, no middlemen.',
     focus: ['AI Architecture', 'System Design', 'Strategy'],
     accent: 'var(--navy-glow)',
     img: 'assets/jonathan-bw.jpg',
-  },
-  {
-    name: 'Yefta',
-    role: 'Co-Founder & Creative Ops',
-    bio: 'The creative engine and operational backbone. Content strategy, client relations, and making sure everything ships on time.',
-    focus: ['Creative Direction', 'Client Ops', 'Content'],
-    accent: 'var(--red)',
-    img: 'assets/yefta-bw.jpg',
   },
 ];
 
@@ -22,7 +14,7 @@ const VALUES = [
   { t: 'Ship Fast',    d: 'Speed is a feature. We optimize for rapid iteration and quick time-to-value.' },
   { t: 'Build Real',   d: 'No vaporware. Everything we deliver works in production, not just in demos.' },
   { t: 'Think Global', d: 'International clients, world-class standards, clear communication across time zones.' },
-  { t: 'Stay Lean',    d: 'Small team, big output. AI-augmented workflows let us punch above our weight.' },
+  { t: 'Stay Lean',    d: 'One builder, AI-augmented. No overhead, no dilution. Every project gets full focus.' },
 ];
 
 function TeamPage({ setPage }) {
@@ -42,14 +34,14 @@ function TeamPage({ setPage }) {
               fontSize: 'clamp(40px, 6vw, 88px)', lineHeight: 1.02,
               color: 'var(--fg)', letterSpacing: '-0.02em'
             }}>
-              Lean team.{' '}
+              One builder.{' '}
               <span style={{
                 fontFamily: "'Instrument Serif', serif", fontStyle: 'italic', fontWeight: 400
-              }}>Big output</span><span style={{ color: 'var(--red)' }}>.</span>
+              }}>AI-augmented</span><span style={{ color: 'var(--red)' }}>.</span>
             </h1>
             <p style={{ fontSize: 16, color: 'var(--fg-mute)', lineHeight: 1.7 }}>
-              We're a small AI agency that ships real products, not decks full of promises.
-              Deep technical skill meets creative vision to build systems that move the needle.
+              Grafynt is run by one person with AI as the multiplier. No bloated teams,
+              no junior handoffs. You work directly with the person who builds your system.
             </p>
           </div>
         </div>
@@ -59,7 +51,7 @@ function TeamPage({ setPage }) {
       <section style={{ padding: '40px 0 80px' }}>
         <div className="shell">
           <div style={{
-            display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24
+            display: 'grid', gridTemplateColumns: 'min(520px, 100%)', gap: 24, justifyContent: 'center'
           }} className="gf-team-grid">
             {TEAM.map((p, i) => (
               <div key={i} className="card" style={{ padding: 0, overflow: 'hidden' }}>
@@ -203,7 +195,7 @@ function TeamPage({ setPage }) {
         `}</style>
       </section>
 
-      <CtaStrip setPage={setPage} line="Work with the team directly" />
+      <CtaStrip setPage={setPage} line="Work directly with the builder" />
     </div>
   );
 }

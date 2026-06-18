@@ -201,8 +201,8 @@ function HomeStatement() {
         }} className="gf-stats-grid">
           {[
             { val: '01',    label: 'Systems Live' },
-            { val: '16',    label: 'Staff Automated' },
-            { val: '2',     label: 'Outlets Connected' },
+            { val: '<10d',  label: 'Site Delivery' },
+            { val: '100%',  label: 'AI-Native Build' },
             { val: '24/7',  label: 'Agent Uptime' },
           ].map((s, i) => (
             <div key={i} style={{
@@ -261,7 +261,7 @@ function HomeServicesPreview({ setPage }) {
       title: 'AI Operations Agent',
       blurb: 'An internal AI agent your staff query over WhatsApp, instant answers on SOPs, stock, sales, and daily ops across every outlet.',
       bullets: ['Staff-facing on WhatsApp', 'SOPs · stock · sales', 'Multi-outlet'],
-      metric: 'Deployed for Kopi Dewa 19 · 16 staff · 2 outlets',
+      metric: 'Live deployment · Staff-facing · 24/7 uptime',
       visual: 'image',
     },
     {
@@ -492,10 +492,10 @@ function WebsiteVisual() {
 // ─── Process strip ────────────────────────────────────────
 function HomeProcess() {
   const steps = [
-    { n: '01', t: 'Discover',  d: 'We learn your business. No assumptions.', ex: 'Mapped Kopi Dewa 19’s full ops flow in one session.' },
-    { n: '02', t: 'Architect', d: 'Design, map, prototype. Validate before we build.', ex: 'Prototyped the agent before any production code.' },
-    { n: '03', t: 'Build',     d: 'AI-augmented delivery. Fast, without compromise.', ex: 'Shipped the live KD19 ops agent in under two weeks.' },
-    { n: '04', t: 'Train',     d: 'Launch, monitor, train. You own the system.', ex: 'Handed the team full control after launch.' },
+    { n: ‘01’, t: ‘Discover’,  d: ‘We learn your business. No assumptions.’, ex: ‘Full ops flow mapped in a single session, before a line of code is written.’ },
+    { n: ‘02’, t: ‘Architect’, d: ‘Design, map, prototype. Validate before we build.’, ex: ‘Prototyped the agent before any production code.’ },
+    { n: ‘03’, t: ‘Build’,     d: ‘AI-augmented delivery. Fast, without compromise.’, ex: ‘Our first live system went from scope to production in under two weeks.’ },
+    { n: ‘04’, t: ‘Train’,     d: ‘Launch, monitor, train. You own the system.’, ex: ‘Handed the team full control after launch.’ },
   ];
   return (
     <section style={{ padding: '100px 0', background: 'var(--bg-2)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
@@ -598,7 +598,7 @@ function HomeTestimonials() {
                 <source srcSet="assets/ops-agent.webp" type="image/webp" />
                 <img
                   src="assets/ops-agent.jpg"
-                  alt="Kopi Dewa 19 staff using the Grafynt AI operations agent on WhatsApp"
+                  alt="Staff using the Grafynt AI operations agent on WhatsApp"
                   style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                   loading="lazy" decoding="async" draggable="false"
                 />
@@ -622,7 +622,7 @@ function HomeTestimonials() {
                 fontFamily: "'Outfit', sans-serif", fontWeight: 500,
                 fontSize: 'clamp(24px, 2.6vw, 32px)', color: 'var(--fg)',
                 letterSpacing: '-0.01em', marginBottom: 6
-              }}>Kopi Dewa 19</h3>
+              }}>Client 01</h3>
               <div className="g-mono" style={{
                 fontSize: 10, letterSpacing: 2, color: 'var(--fg-faint)',
                 textTransform: 'uppercase', marginBottom: 22
@@ -631,7 +631,7 @@ function HomeTestimonials() {
                 fontSize: 15.5, color: 'var(--fg-mute)', lineHeight: 1.75,
                 fontWeight: 300, marginBottom: 32, maxWidth: 520
               }}>
-                We built an internal AI operations agent the KD19 team queries straight from WhatsApp , 
+                An internal AI operations agent the team queries straight from WhatsApp —
                 answering SOP questions, surfacing stock and sales, and keeping two outlets running on the
                 same playbook. <span style={{ color: 'var(--fg)' }}>16 staff, one shared brain.</span>
               </p>
