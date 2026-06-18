@@ -5,46 +5,41 @@ function HomePage({ setPage }) {
   useEffectH(() => {
     const g = window.gsap;
     const ST = window.ScrollTrigger;
-    const L = window.Lenis;
-    if (!g || !ST || !L) return;
+    if (!g || !ST) return;
 
-    g.registerPlugin(ST);
+    try {
+      g.registerPlugin(ST);
 
-    // Lenis smooth scroll synced to GSAP ticker
-    const lenis = new L({ duration: 1.2, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
-    const rafFn = time => lenis.raf(time * 1000);
-    g.ticker.add(rafFn);
-    g.ticker.lagSmoothing(0);
+      // Hero entrance — headline lines stagger up
+      g.from('.hero-line', { opacity: 0, y: 44, duration: 1, stagger: 0.18, ease: 'power3.out', delay: 0.1 });
+      g.from('.hero-sub',  { opacity: 0, y: 22, duration: 0.8, ease: 'power2.out', delay: 0.44 });
+      g.from('.hero-cta-wrap > *', { opacity: 0, y: 16, duration: 0.6, stagger: 0.1, ease: 'power2.out', delay: 0.64 });
 
-    // Hero entrance — headline lines stagger up
-    g.from('.hero-line', { opacity: 0, y: 44, duration: 1, stagger: 0.18, ease: 'power3.out', delay: 0.1 });
-    g.from('.hero-sub',  { opacity: 0, y: 22, duration: 0.8, ease: 'power2.out', delay: 0.44 });
-    g.from('.hero-cta-wrap > *', { opacity: 0, y: 16, duration: 0.6, stagger: 0.1, ease: 'power2.out', delay: 0.64 });
-
-    // Robot parallax — moves slower than scroll, creating depth
-    g.to('.hero-portrait-wrap', {
-      y: -60, ease: 'none',
-      scrollTrigger: { trigger: '.hero-section', start: 'top top', end: 'bottom top', scrub: 1.5 },
-    });
-
-    // Section scroll reveals
-    g.utils.toArray('[data-reveal]').forEach(el => {
-      g.from(el, {
-        opacity: 0, y: 44, duration: 0.9, ease: 'power3.out',
-        scrollTrigger: { trigger: el, start: 'top 86%', once: true },
+      // Robot parallax — portrait moves slower than scroll, creating depth
+      g.to('.hero-portrait-wrap', {
+        y: -60, ease: 'none',
+        scrollTrigger: { trigger: '.hero-section', start: 'top top', end: 'bottom top', scrub: 1.5 },
       });
-    });
 
-    // Stats pop — scale up as they enter
-    g.from('.stat-val', {
-      opacity: 0, scale: 0.72, duration: 0.55, stagger: 0.08, ease: 'back.out(1.7)',
-      scrollTrigger: { trigger: '.gf-stats-grid', start: 'top 80%', once: true },
-    });
+      // Section scroll reveals
+      g.utils.toArray('[data-reveal]').forEach(function(el) {
+        g.from(el, {
+          opacity: 0, y: 44, duration: 0.9, ease: 'power3.out',
+          scrollTrigger: { trigger: el, start: 'top 86%', once: true },
+        });
+      });
+
+      // Stats pop — scale up as they enter view
+      g.from('.stat-val', {
+        opacity: 0, scale: 0.72, duration: 0.55, stagger: 0.08, ease: 'back.out(1.7)',
+        scrollTrigger: { trigger: '.gf-stats-grid', start: 'top 80%', once: true },
+      });
+    } catch (e) {
+      // Animation failure is non-fatal — content remains visible
+    }
 
     return () => {
-      lenis.destroy();
-      g.ticker.remove(rafFn);
-      ST.getAll().forEach(t => t.kill());
+      try { ST.getAll().forEach(function(t) { t.kill(); }); } catch (e) {}
     };
   }, []);
 
