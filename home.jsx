@@ -2,47 +2,6 @@
 const { useState: useStateH, useEffect: useEffectH } = React;
 
 function HomePage({ setPage }) {
-  useEffectH(() => {
-    const g = window.gsap;
-    const ST = window.ScrollTrigger;
-    if (!g || !ST) return;
-
-    try {
-      g.registerPlugin(ST);
-
-      // Hero entrance — headline lines stagger up
-      g.from('.hero-line', { opacity: 0, y: 44, duration: 1, stagger: 0.18, ease: 'power3.out', delay: 0.1 });
-      g.from('.hero-sub',  { opacity: 0, y: 22, duration: 0.8, ease: 'power2.out', delay: 0.44 });
-      g.from('.hero-cta-wrap > *', { opacity: 0, y: 16, duration: 0.6, stagger: 0.1, ease: 'power2.out', delay: 0.64 });
-
-      // Robot parallax — portrait moves slower than scroll, creating depth
-      g.to('.hero-portrait-wrap', {
-        y: -60, ease: 'none',
-        scrollTrigger: { trigger: '.hero-section', start: 'top top', end: 'bottom top', scrub: 1.5 },
-      });
-
-      // Section scroll reveals
-      g.utils.toArray('[data-reveal]').forEach(function(el) {
-        g.from(el, {
-          opacity: 0, y: 44, duration: 0.9, ease: 'power3.out',
-          scrollTrigger: { trigger: el, start: 'top 86%', once: true },
-        });
-      });
-
-      // Stats pop — scale up as they enter view
-      g.from('.stat-val', {
-        opacity: 0, scale: 0.72, duration: 0.55, stagger: 0.08, ease: 'back.out(1.7)',
-        scrollTrigger: { trigger: '.gf-stats-grid', start: 'top 80%', once: true },
-      });
-    } catch (e) {
-      // Animation failure is non-fatal — content remains visible
-    }
-
-    return () => {
-      try { ST.getAll().forEach(function(t) { t.kill(); }); } catch (e) {}
-    };
-  }, []);
-
   return (
     <div>
       <HomeHero setPage={setPage} />
@@ -60,7 +19,7 @@ function HomePage({ setPage }) {
 // ─── HERO ─────────────────────────────────────────────────
 function HomeHero({ setPage }) {
   return (
-    <section className="hero-section" style={{
+    <section style={{
       position: 'relative',
       minHeight: '92vh',
       display: 'flex',
@@ -79,13 +38,14 @@ function HomeHero({ setPage }) {
       <div style={{
         position: 'relative', zIndex: 6,
         textAlign: 'center', padding: '0 24px',
+        animation: 'fadeUp 0.8s ease'
       }}>
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 28 }}>
           <SectionTag>AI Agency · Open for Projects · 1 Live System Deployed</SectionTag>
         </div>
 
         <h1 style={{ marginBottom: 24 }}>
-          <span className="hero-line" style={{
+          <span style={{
             display: 'block',
             fontFamily: "'Outfit', sans-serif",
             fontWeight: 200,
@@ -94,7 +54,7 @@ function HomeHero({ setPage }) {
             letterSpacing: '-0.02em',
             color: 'var(--fg)'
           }}>We build</span>
-          <span className="hero-line" style={{
+          <span style={{
             display: 'block',
             fontFamily: "'Instrument Serif', serif",
             fontStyle: 'italic',
@@ -106,7 +66,7 @@ function HomeHero({ setPage }) {
           }}>intelligent systems<span style={{ color: 'var(--red)' }}>.</span></span>
         </h1>
 
-        <p className="hero-sub" style={{
+        <p style={{
           maxWidth: 600, margin: '0 auto 32px',
           fontSize: 'clamp(17px, 1.7vw, 22px)',
           color: 'var(--fg-mute)',
@@ -117,7 +77,7 @@ function HomeHero({ setPage }) {
           AI systems that pay for themselves.
         </p>
 
-        <div className="hero-cta-wrap" style={{ display: 'flex', justifyContent: 'center', gap: 12, flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: 12, flexWrap: 'wrap' }}>
           <button className="btn btn-primary" onClick={() => setPage('contact')}>Get in Touch</button>
           <button className="btn btn-ghost" onClick={() => setPage('services')}>View Services</button>
         </div>
@@ -203,7 +163,7 @@ function HomeStatement() {
         <div style={{ marginBottom: 28 }}>
           <SectionTag>Why Grafynt</SectionTag>
         </div>
-        <div data-reveal style={{
+        <div style={{
           display: 'grid', gridTemplateColumns: '1fr 1.4fr', gap: 80, alignItems: 'start'
         }} className="gf-statement-grid">
           <div className="g-mono" style={{
@@ -249,7 +209,7 @@ function HomeStatement() {
               padding: '32px 24px',
               borderRight: i < 3 ? '1px solid var(--border)' : 'none'
             }}>
-              <div className="g-serif stat-val" style={{
+              <div className="g-serif" style={{
                 fontSize: 'clamp(28px, 3.4vw, 44px)',
                 fontStyle: 'italic',
                 color: 'var(--fg)',
@@ -346,7 +306,7 @@ function HomeServicesPreview({ setPage }) {
           </button>
         </div>
 
-        <div data-reveal style={{
+        <div style={{
           display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24
         }} className="gf-services-grid">
           {items.map((it, i) => (
@@ -559,7 +519,7 @@ function HomeProcess() {
           ))}
         </div>
 
-        <div data-reveal style={{
+        <div style={{
           display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 0
         }} className="gf-process-grid">
           {steps.map((s, i) => (
@@ -628,7 +588,7 @@ function HomeTestimonials() {
           Proven in the field<span style={{ color: 'var(--red)' }}>.</span>
         </h2>
 
-        <div data-reveal className="case-card">
+        <div className="case-card">
           <div style={{
             display: 'grid', gridTemplateColumns: '0.85fr 1.15fr'
           }} className="gf-case-grid">
@@ -712,7 +672,7 @@ function HomeFinalCta({ setPage }) {
   return (
     <section style={{ padding: '80px 0 0' }}>
       <div className="shell">
-        <div data-reveal style={{
+        <div style={{
           position: 'relative',
           borderRadius: 24, overflow: 'hidden',
           background: 'linear-gradient(135deg, #14182f 0%, #0a0c14 100%)',
