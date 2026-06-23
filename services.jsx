@@ -185,7 +185,7 @@ function ServicesPage({ setPage }) {
                     padding: '18px 0',
                     borderBottom: '1px solid var(--border)',
                     display: 'flex', alignItems: 'center', gap: 16,
-                    animation: `slideIn 0.4s ease ${i * 0.04}s both`
+                    animation: 'slideIn 0.4s ease ' + (i * 0.04) + 's both'
                   }}>
                     <span className="g-mono" style={{
                       fontSize: 11, color: 'var(--fg-faint)',
@@ -200,11 +200,7 @@ function ServicesPage({ setPage }) {
           </div>
         </div>
 
-        <style>{`
-          @media (max-width: 900px) {
-            .gf-svc-hero-grid, .gf-svc-grid { grid-template-columns: 1fr !important; gap: 24px !important; }
-          }
-        `}</style>
+        <style>{"@media (max-width: 900px) { .gf-svc-hero-grid, .gf-svc-grid { grid-template-columns: 1fr !important; gap: 24px !important; } }"}</style>
       </section>
       </div>
 
@@ -349,18 +345,7 @@ function FoundFirst() {
         </div>
       </div>
 
-      <style>{`
-        @media (max-width: 900px) {
-          .gf-found-hero { grid-template-columns: 1fr !important; gap: 16px !important; }
-          .gf-found-grid { grid-template-columns: 1fr 1fr !important; }
-          .gf-found-stats { grid-template-columns: 1fr !important; }
-          .gf-found-stats > div { border-right: none !important; border-bottom: 1px solid var(--border); }
-          .gf-found-stats > div:last-child { border-bottom: none; }
-        }
-        @media (max-width: 540px) {
-          .gf-found-grid { grid-template-columns: 1fr !important; }
-        }
-      `}</style>
+      <style>{"@media (max-width: 900px) { .gf-found-hero { grid-template-columns: 1fr !important; gap: 16px !important; } .gf-found-grid { grid-template-columns: 1fr 1fr !important; } .gf-found-stats { grid-template-columns: 1fr !important; } .gf-found-stats > div { border-right: none !important; border-bottom: 1px solid var(--border); } .gf-found-stats > div:last-child { border-bottom: none; } } @media (max-width: 540px) { .gf-found-grid { grid-template-columns: 1fr !important; } }"}</style>
     </section>
   );
 }

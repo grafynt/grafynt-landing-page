@@ -212,11 +212,7 @@ function ContactPage({ setPage }) {
           </div>
         </div>
 
-        <style>{`
-          @media (max-width: 900px) {
-            .gf-contact-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
-          }
-        `}</style>
+        <style>{"@media (max-width: 900px) { .gf-contact-grid { grid-template-columns: 1fr !important; gap: 32px !important; } }"}</style>
       </div>
     </section>
   );

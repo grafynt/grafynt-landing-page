@@ -59,7 +59,7 @@ function TeamPage({ setPage }) {
                 <div style={{
                   position: 'relative',
                   aspectRatio: '4/5',
-                  background: `linear-gradient(135deg, ${i === 0 ? '#14182f' : '#1a1422'} 0%, #0a0c14 100%)`,
+                  background: 'linear-gradient(135deg, ' + (i === 0 ? '#14182f' : '#1a1422') + ' 0%, #0a0c14 100%)',
                   overflow: 'hidden',
                   borderBottom: '1px solid var(--border)'
                 }}>
@@ -71,9 +71,9 @@ function TeamPage({ setPage }) {
                     />
                   ) : (
                     <image-slot
-                      id={`team-${p.name.toLowerCase()}`}
+                      id={'team-' + p.name.toLowerCase()}
                       shape="rect"
-                      placeholder={`Drop ${p.name}'s portrait`}
+                      placeholder={'Drop ' + p.name + "'s portrait"}
                       style={{ width: '100%', height: '100%', display: 'block', background: 'transparent' }}
                     ></image-slot>
                   )}
@@ -131,11 +131,7 @@ function TeamPage({ setPage }) {
           </div>
         </div>
 
-        <style>{`
-          @media (max-width: 900px) {
-            .gf-team-hero, .gf-team-grid { grid-template-columns: 1fr !important; gap: 24px !important; }
-          }
-        `}</style>
+        <style>{"@media (max-width: 900px) { .gf-team-hero, .gf-team-grid { grid-template-columns: 1fr !important; gap: 24px !important; } }"}</style>
       </section>
 
       {/* Principles */}
@@ -181,18 +177,7 @@ function TeamPage({ setPage }) {
           </div>
         </div>
 
-        <style>{`
-          @media (max-width: 900px) {
-            .gf-values-grid { grid-template-columns: 1fr 1fr !important; }
-            .gf-values-grid > div:nth-child(2) { border-right: none !important; }
-            .gf-values-grid > div:nth-child(1),
-            .gf-values-grid > div:nth-child(2) { border-bottom: 1px solid var(--border); }
-          }
-          @media (max-width: 540px) {
-            .gf-values-grid { grid-template-columns: 1fr !important; }
-            .gf-values-grid > div { border-right: none !important; border-bottom: 1px solid var(--border) !important; }
-          }
-        `}</style>
+        <style>{"@media (max-width: 900px) { .gf-values-grid { grid-template-columns: 1fr 1fr !important; } .gf-values-grid > div:nth-child(2) { border-right: none !important; } .gf-values-grid > div:nth-child(1), .gf-values-grid > div:nth-child(2) { border-bottom: 1px solid var(--border); } } @media (max-width: 540px) { .gf-values-grid { grid-template-columns: 1fr !important; } .gf-values-grid > div { border-right: none !important; border-bottom: 1px solid var(--border) !important; } }"}</style>
       </section>
 
       <CtaStrip setPage={setPage} line="Work directly with the builder" />

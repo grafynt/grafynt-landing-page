@@ -128,12 +128,7 @@ function PricingPage({ setPage }) {
           </p>
         </div>
 
-        <style>{`
-          @media (max-width: 900px) {
-            .gf-pricing-hero { grid-template-columns: 1fr !important; gap: 24px !important; }
-            .gf-tier-grid { grid-template-columns: 1fr !important; }
-          }
-        `}</style>
+        <style>{"@media (max-width: 900px) { .gf-pricing-hero { grid-template-columns: 1fr !important; gap: 24px !important; } .gf-tier-grid { grid-template-columns: 1fr !important; } }"}</style>
       </section>
 
       {/* What's NOT included / comparison */}
@@ -169,11 +164,7 @@ function PricingPage({ setPage }) {
           </div>
         </div>
 
-        <style>{`
-          @media (max-width: 900px) {
-            .gf-faq-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
-          }
-        `}</style>
+        <style>{"@media (max-width: 900px) { .gf-faq-grid { grid-template-columns: 1fr !important; gap: 32px !important; } }"}</style>
       </section>
 
       <CtaStrip setPage={setPage} line="Pick a starting point" />

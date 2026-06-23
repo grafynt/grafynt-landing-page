@@ -60,13 +60,13 @@ function InvoicePage({ setPage }) {
     if (!valid) return;
 
     // Notify Grafynt via mailto (opens mail client pre-filled)
-    const subject = encodeURIComponent(`Invoice Request — ${plan.name} — ${form.name}`);
+    const subject = encodeURIComponent('Invoice Request — ' + plan.name + ' — ' + form.name);
     const body = encodeURIComponent(
-      `New invoice request\n\nPackage: ${plan.name} (${plan.price})\n\nClient name: ${form.name}\nClient email: ${form.email}\nSocial: ${form.social || 'not provided'}\n\nPlease send the invoice to ${form.email}.`
+      'New invoice request\n\nPackage: ' + plan.name + ' (' + plan.price + ')\n\nClient name: ' + form.name + '\nClient email: ' + form.email + '\nSocial: ' + (form.social || 'not provided') + '\n\nPlease send the invoice to ' + form.email + '.'
     );
     // Open silently in background tab so user stays on confirmation
     const a = document.createElement('a');
-    a.href = `mailto:grafynt@gmail.com?subject=${subject}&body=${body}`;
+    a.href = 'mailto:grafynt@gmail.com?subject=' + subject + '&body=' + body;
     a.style.display = 'none';
     document.body.appendChild(a);
     a.click();
@@ -243,11 +243,7 @@ function InvoicePage({ setPage }) {
         </div>
       </div>
 
-      <style>{`
-        @media (max-width: 720px) {
-          .gf-inv-layout { grid-template-columns: 1fr !important; }
-        }
-      `}</style>
+      <style>{"@media (max-width: 720px) { .gf-inv-layout { grid-template-columns: 1fr !important; } }"}</style>
     </section>
   );
 }
@@ -290,7 +286,7 @@ function ConfirmationScreen({ form, plan, setPage }) {
 
         <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
           <a
-            href={`https://wa.me/6281319190388?text=${encodeURIComponent(`Hi Grafynt! I just requested an invoice for ${plan.name}. My name is ${form.name}.`)}`}
+            href={'https://wa.me/6281319190388?text=' + encodeURIComponent('Hi Grafynt! I just requested an invoice for ' + plan.name + '. My name is ' + form.name + '.')}
             target="_blank"
             rel="noopener noreferrer"
             className="btn btn-primary"

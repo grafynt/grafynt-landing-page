@@ -47,7 +47,7 @@ function HeroChips() {
             left: c.left,
             right: c.right,
             animation: c.anim,
-            animationDelay: `${i * 0.3}s`,
+            animationDelay: (i * 0.3) + 's',
           }}
         >{c.text}</span>
       ))}
@@ -143,11 +143,7 @@ function Nav({ page, setPage }) {
         </div>
       )}
 
-      <style>{`
-        @media (max-width: 900px) {
-          .gf-mob-btn { display: block !important; }
-        }
-      `}</style>
+      <style>{"@media (max-width: 900px) { .gf-mob-btn { display: block !important; } }"}</style>
     </nav>
   );
 }
@@ -285,14 +281,7 @@ function Footer({ setPage }) {
         </div>
       </div>
 
-      <style>{`
-        @media (max-width: 900px) {
-          .gf-footer-grid { grid-template-columns: 1fr 1fr !important; }
-        }
-        @media (max-width: 540px) {
-          .gf-footer-grid { grid-template-columns: 1fr !important; }
-        }
-      `}</style>
+      <style>{"@media (max-width: 900px) { .gf-footer-grid { grid-template-columns: 1fr 1fr !important; } } @media (max-width: 540px) { .gf-footer-grid { grid-template-columns: 1fr !important; } }"}</style>
     </footer>
   );
 }

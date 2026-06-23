@@ -224,17 +224,7 @@ function HomeStatement() {
         </div>
       </div>
 
-      <style>{`
-        @media (max-width: 900px) {
-          .gf-statement-grid { grid-template-columns: 1fr !important; gap: 24px !important; }
-          .gf-stats-grid { grid-template-columns: 1fr 1fr !important; }
-          .gf-stats-grid > div:nth-child(2) { border-right: none !important; }
-          .gf-stats-grid > div:nth-child(odd) { border-right: 1px solid var(--border) !important; }
-          .gf-stats-grid > div:nth-child(1), .gf-stats-grid > div:nth-child(2) {
-            border-bottom: 1px solid var(--border);
-          }
-        }
-      `}</style>
+      <style>{"@media (max-width: 900px) { .gf-statement-grid { grid-template-columns: 1fr !important; gap: 24px !important; } .gf-stats-grid { grid-template-columns: 1fr 1fr !important; } .gf-stats-grid > div:nth-child(2) { border-right: none !important; } .gf-stats-grid > div:nth-child(odd) { border-right: 1px solid var(--border) !important; } .gf-stats-grid > div:nth-child(1), .gf-stats-grid > div:nth-child(2) { border-bottom: 1px solid var(--border); } }"}</style>
     </section>
   );
 }
@@ -413,14 +403,7 @@ function HomeServicesPreview({ setPage }) {
         </div>
       </div>
 
-      <style>{`
-        @media (max-width: 980px) {
-          .gf-services-grid { grid-template-columns: 1fr 1fr !important; }
-        }
-        @media (max-width: 640px) {
-          .gf-services-grid { grid-template-columns: 1fr !important; }
-        }
-      `}</style>
+      <style>{"@media (max-width: 980px) { .gf-services-grid { grid-template-columns: 1fr 1fr !important; } } @media (max-width: 640px) { .gf-services-grid { grid-template-columns: 1fr !important; } }"}</style>
     </section>
   );
 }
@@ -515,7 +498,7 @@ function HomeProcess() {
         {/* Connected timeline */}
         <div className="proc-timeline gf-proc-line">
           {[12.5, 37.5, 62.5, 87.5].map((p, i) => (
-            <span key={i} className="proc-node" style={{ left: `${p}%` }} />
+            <span key={i} className="proc-node" style={{ left: p + '%' }} />
           ))}
         </div>
 
@@ -550,18 +533,7 @@ function HomeProcess() {
         </div>
       </div>
 
-      <style>{`
-        @media (max-width: 900px) {
-          .gf-proc-line { display: none !important; }
-          .gf-process-grid { grid-template-columns: 1fr 1fr !important; }
-          .gf-process-grid > div { padding-left: 24px !important; padding-right: 24px !important; }
-          .gf-process-grid > div:nth-child(2) { border-right: none !important; }
-        }
-        @media (max-width: 540px) {
-          .gf-process-grid { grid-template-columns: 1fr !important; }
-          .gf-process-grid > div { border-right: none !important; border-bottom: 1px solid var(--border); }
-        }
-      `}</style>
+      <style>{"@media (max-width: 900px) { .gf-proc-line { display: none !important; } .gf-process-grid { grid-template-columns: 1fr 1fr !important; } .gf-process-grid > div { padding-left: 24px !important; padding-right: 24px !important; } .gf-process-grid > div:nth-child(2) { border-right: none !important; } } @media (max-width: 540px) { .gf-process-grid { grid-template-columns: 1fr !important; } .gf-process-grid > div { border-right: none !important; border-bottom: 1px solid var(--border); } }"}</style>
     </section>
   );
 }
@@ -656,13 +628,7 @@ function HomeTestimonials() {
         </div>
       </div>
 
-      <style>{`
-        @media (max-width: 760px) {
-          .gf-case-grid { grid-template-columns: 1fr !important; }
-          .gf-case-media { min-height: 220px !important; }
-          .gf-case-body { padding: 32px 24px 0 !important; }
-        }
-      `}</style>
+      <style>{"@media (max-width: 760px) { .gf-case-grid { grid-template-columns: 1fr !important; } .gf-case-media { min-height: 220px !important; } .gf-case-body { padding: 32px 24px 0 !important; } }"}</style>
     </section>
   );
 }
