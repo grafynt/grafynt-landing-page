@@ -475,10 +475,10 @@ function WebsiteVisual() {
 // ─── Process strip ────────────────────────────────────────
 function HomeProcess() {
   const steps = [
-    { n: ‘01’, t: ‘Discover’,  d: ‘We learn your business. No assumptions.’, ex: ‘Full ops flow mapped in a single session, before a line of code is written.’ },
-    { n: ‘02’, t: ‘Architect’, d: ‘Design, map, prototype. Validate before we build.’, ex: ‘Prototyped the agent before any production code.’ },
-    { n: ‘03’, t: ‘Build’,     d: ‘AI-augmented delivery. Fast, without compromise.’, ex: ‘Our first live system went from scope to production in under two weeks.’ },
-    { n: ‘04’, t: ‘Train’,     d: ‘Launch, monitor, train. You own the system.’, ex: ‘Handed the team full control after launch.’ },
+    { n: '01', t: 'Discover',  d: 'We learn your business. No assumptions.', ex: 'Full ops flow mapped in a single session, before a line of code is written.' },
+    { n: '02', t: 'Architect', d: 'Design, map, prototype. Validate before we build.', ex: 'Prototyped the agent before any production code.' },
+    { n: '03', t: 'Build',     d: 'AI-augmented delivery. Fast, without compromise.', ex: 'Our first live system went from scope to production in under two weeks.' },
+    { n: '04', t: 'Train',     d: 'Launch, monitor, train. You own the system.', ex: 'Handed the team full control after launch.' },
   ];
   return (
     <section style={{ padding: '100px 0', background: 'var(--bg-2)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
