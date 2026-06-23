@@ -1,4 +1,4 @@
-/* global React, ReactDOM, Nav, Footer, SectionTag, HomePage, ServicesPage, TeamPage, PricingPage, InvoicePage */
+/* global React, ReactDOM */
 const { useState, useEffect } = React;
 
 // ─── URL <-> page mapping ────────────────────────────────
@@ -21,17 +21,12 @@ const URL_TO_PAGE = {
 };
 
 function detectInitialPage() {
-  // Page-specific HTML files set <body data-page="X">, most reliable on
-  // static hosting where pretty URLs and trailing slashes vary.
   const dp = document.body.dataset.page;
   if (dp && PAGE_TO_URL[dp]) return dp;
-  // Fallback: match window.location.pathname
   const path = location.pathname.replace(/\/+$/, '') || '/';
   return URL_TO_PAGE[path] || 'home';
 }
 
-// Expose globally so non-React anchors (e.g. footer/CTA links) can
-// share the same client-side nav behaviour.
 window.grafyntNavigate = null;
 
 // ─── ERROR BOUNDARY ─────────────────────────────────────
@@ -48,6 +43,7 @@ class ErrorBoundary extends React.Component {
 
 // ─── CONTACT PAGE ────────────────────────────────────────
 function ContactPage({ setPage }) {
+  const SectionTag = window.SectionTag;
   const [form, setForm] = useState({ name: '', email: '', company: '', budget: '', message: '' });
   const [sent, setSent] = useState(false);
 
@@ -62,7 +58,7 @@ function ContactPage({ setPage }) {
     <section style={{ padding: '80px 0 120px' }}>
       <div className="shell">
         <div style={{ marginBottom: 20 }}>
-          <SectionTag>Get in Touch</SectionTag>
+          {SectionTag && <SectionTag>Get in Touch</SectionTag>}
         </div>
 
         <div style={{
@@ -222,12 +218,8 @@ function ContactPage({ setPage }) {
 function App() {
   const [page, setPageRaw] = useState(detectInitialPage);
 
-  // Single navigation entrypoint: updates URL + state + scroll, gracefully
-  // falls back to a hard navigation if the target is unknown (e.g. an
-  // anchor outside the SPA's page map).
   const navigate = (newPage) => {
     if (!PAGE_TO_URL[newPage]) {
-      // Unknown target, fall through to real link behaviour.
       window.location.assign(newPage);
       return;
     }
@@ -239,39 +231,45 @@ function App() {
     history.pushState({ page: newPage }, '', url);
     setPageRaw(newPage);
     window.scrollTo({ top: 0, behavior: 'instant' });
-    // Best-effort document.title sync, real per-page <title> is still set
-    // by each HTML file on first load (what matters for SEO crawls).
     document.title = TITLE_MAP[newPage] || document.title;
   };
   window.grafyntNavigate = navigate;
 
-  // Browser back/forward.
   useEffect(() => {
     const onPop = () => setPageRaw(detectInitialPage());
     window.addEventListener('popstate', onPop);
     return () => window.removeEventListener('popstate', onPop);
   }, []);
 
-  const setPage = navigate; // shim for existing components
+  const setPage = navigate;
+
+  // Resolve window globals at render time so we don't depend on script execution order
+  const Nav = window.Nav;
+  const Footer = window.Footer;
+  const HomePage = window.HomePage;
+  const ServicesPage = window.ServicesPage;
+  const TeamPage = window.TeamPage;
+  const PricingPage = window.PricingPage;
+  const InvoicePage = window.InvoicePage;
 
   let PageComp;
   switch (page) {
-    case 'services': PageComp = <ServicesPage setPage={setPage} />; break;
-    case 'team':     PageComp = <TeamPage setPage={setPage} />; break;
-    case 'pricing':  PageComp = <PricingPage setPage={setPage} />; break;
+    case 'services': PageComp = ServicesPage ? <ServicesPage setPage={setPage} /> : null; break;
+    case 'team':     PageComp = TeamPage     ? <TeamPage     setPage={setPage} /> : null; break;
+    case 'pricing':  PageComp = PricingPage  ? <PricingPage  setPage={setPage} /> : null; break;
     case 'contact':  PageComp = <ContactPage setPage={setPage} />; break;
-    case 'invoice':  PageComp = <InvoicePage setPage={setPage} />; break;
+    case 'invoice':  PageComp = InvoicePage  ? <InvoicePage  setPage={setPage} /> : null; break;
     case 'home':
-    default:         PageComp = <HomePage setPage={setPage} />;
+    default:         PageComp = HomePage     ? <HomePage     setPage={setPage} /> : null;
   }
 
   return (
     <div data-screen-label={page}>
-      <Nav page={page} setPage={setPage} />
+      {Nav && <Nav page={page} setPage={setPage} />}
       <main key={page} style={{ animation: 'fadeIn 0.35s ease' }}>
         {PageComp}
       </main>
-      <Footer setPage={setPage} />
+      {Footer && <Footer setPage={setPage} />}
     </div>
   );
 }
@@ -285,5 +283,17 @@ const TITLE_MAP = {
   invoice:  'Invoice · Grafynt',
 };
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<ErrorBoundary><App /></ErrorBoundary>);
+// Wait for all window components to be ready before mounting React.
+// Babel Standalone fetches external .jsx files concurrently, so execution
+// order is not guaranteed — app.jsx can run before home.jsx sets window.HomePage.
+function mountApp() {
+  if (!window.Nav || !window.Footer || !window.HomePage ||
+      !window.ServicesPage || !window.TeamPage ||
+      !window.PricingPage || !window.InvoicePage) {
+    setTimeout(mountApp, 20);
+    return;
+  }
+  const root = ReactDOM.createRoot(document.getElementById('root'));
+  root.render(<ErrorBoundary><App /></ErrorBoundary>);
+}
+mountApp();
