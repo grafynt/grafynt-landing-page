@@ -29,6 +29,8 @@
   </div>
 </div>
 
+<script>(function(){function showErr(m){var d=document.createElement('div');d.style.cssText='position:fixed;inset:0;background:#0a0c14;padding:40px;font-family:monospace;z-index:9999;overflow:auto;color:#fff';d.innerHTML='<p style="color:#ff4;font-size:13px;margin:0 0 12px">&#9888; GRAFYNT LOAD ERROR &mdash; screenshot this and send to support</p><pre style="color:#f88;font-size:12px;white-space:pre-wrap">'+String(m).replace(/[<>]/g,function(c){return c==='<'?'&lt;':'&gt;'})+'</pre>';document.body.appendChild(d);}window._grafyntShowError=showErr;window.onerror=function(msg,src,l,c,err){showErr((err&&err.stack)||msg+' @ '+src+':'+l);};window.onunhandledrejection=function(e){showErr(e.reason&&(e.reason.stack||String(e.reason))||'Unhandled rejection');};})();
+</script>
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>

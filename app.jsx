@@ -34,6 +34,18 @@ function detectInitialPage() {
 // share the same client-side nav behaviour.
 window.grafyntNavigate = null;
 
+// ─── ERROR BOUNDARY ─────────────────────────────────────
+class ErrorBoundary extends React.Component {
+  constructor(props) { super(props); this.state = { err: null }; }
+  static getDerivedStateFromError(e) { return { err: e }; }
+  componentDidCatch(e, info) {
+    if (window._grafyntShowError) {
+      window._grafyntShowError(e.stack + '\n\nComponent stack:\n' + info.componentStack);
+    }
+  }
+  render() { return this.state.err ? null : this.props.children; }
+}
+
 // ─── CONTACT PAGE ────────────────────────────────────────
 function ContactPage({ setPage }) {
   const [form, setForm] = useState({ name: '', email: '', company: '', budget: '', message: '' });
@@ -278,4 +290,4 @@ const TITLE_MAP = {
 };
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<App />);
+root.render(<ErrorBoundary><App /></ErrorBoundary>);
